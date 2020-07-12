@@ -17,9 +17,8 @@ import warnings
 import yaml
 from typing import Dict, List, Optional, Tuple, Union
 
-from arc.exceptions import InputError, SettingsError
 from arc.settings import arc_path, servers, default_job_types
-from arc.common import is_str_float, is_str_int
+from arc.common import is_str_float, is_str_int, read_yaml_file, save_yaml_file
 
 
 logger = logging.getLogger('apioxy')
@@ -27,6 +26,7 @@ logger = logging.getLogger('apioxy')
 VERSION = '0.1.0'
 
 apioxy_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))  # absolute path to the APIOxy folder
+PROJECTS_BASE_PATH = os.path.join(apioxy_path, 'Projects')
 
 
 def initialize_log(log_file: str,
@@ -124,7 +124,7 @@ def log_header(project: str,
     head, date = get_git_commit()
     branch_name = get_git_branch()
     if head != '' and date != '':
-        logger.log(level, 'The current git HEAD for ARC is:')
+        logger.log(level, 'The current git HEAD for APIOxy is:')
         logger.log(level, f'    {head}\n    {date}')
     if branch_name and branch_name != 'master':
         logger.log(level, f'    (running on the {branch_name} branch)\n')
