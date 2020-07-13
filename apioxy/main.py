@@ -4,6 +4,7 @@ APIOxy's main module.
 
 import logging
 import os
+import time
 from typing import Optional
 
 from t3 import T3
@@ -11,6 +12,7 @@ from t3.schema import RMGSpecies
 
 from apioxy.common import PROJECTS_BASE_PATH, VERSION, initialize_log
 from apioxy.levels import LEVELS
+from apioxy.logger import Logger
 
 
 class APIOxy(object):
@@ -31,7 +33,9 @@ class APIOxy(object):
                  demo: bool = False,
                  verbose=logging.INFO,
                  ) -> None:
+
         self.__version__ = VERSION
+        self.t0 = time.time()  # initialize the timer
 
         self.project = project if project is not None else str()
         self.project_directory = project_directory or os.path.join(PROJECTS_BASE_PATH, project)
@@ -42,11 +46,20 @@ class APIOxy(object):
         self.demo = demo
         self.verbose = verbose
 
-        initialize_log(log_file=os.path.join(self.project_directory, 'apioxy.log'),
-                       project=self.project,
-                       project_directory=self.project_directory,
-                       verbose=self.verbose,
-                       )
+        # initialize the logger
+        self.logger = Logger(project=self.project,
+                             project_directory=self.project_directory,
+                             verbose=self.verbose,
+                             t0=self.t0,
+                             )
+        # log the input
+        self.logger.log_args(schema={'apioxy': apioxy,
+                                     't3': t3,
+                                     'rmg': rmg,
+                                     'qm': qm,
+                                     'demo': demo,
+                                     'verbose': verbose,
+                                     })
 
         if self.demo:
             self.set_up_demo()
@@ -61,6 +74,7 @@ class APIOxy(object):
             implement settings for demo
         """
         self.project = 'apioxy_demo'
+        self.logger.log('Running APIOxy in Demo mode')
         raise NotImplementedError('demo under construction.')
 
     def apply_default_settings(self):
@@ -70,6 +84,7 @@ class APIOxy(object):
         """
         # apioxy
         if 'model_level' not in self.apioxy:
+            self.logger.warning('Setting model_level to custom')
             self.apioxy['model_level'] = 'custom'
         if 'api_structures' not in self.apioxy or not self.apioxy['api_structures']:
             raise ValueError('APIOxy cannot be executed without specifying API structures.\n'
@@ -80,10 +95,11 @@ class APIOxy(object):
             # not using the output, just passing through the schema
             RMGSpecies(**api_dict)
         if 'run_in_parallel' not in self.apioxy:
+            self.logger.debug('Not running in parallel.')
             self.apioxy['run_in_parallel'] = False
         if 'zeneth_output_path' not in self.apioxy:
-            self.apioxy['zeneth_output_paths'] = None
-            logging.warning('No Zeneth output files were given.')
+            self.apioxy['zeneth_output_paths'] = [None] * len(self.apioxy['api_structures'])
+            self.logger.warning('No Zeneth output files were given.')
         elif len(self.apioxy['zeneth_output_paths']) != len(self.apioxy['api_structures']):
             raise ValueError(f"The length of zeneth_output_path ({len(self.apioxy['zeneth_output_paths'])}) "
                              f"must be equal to the length of api_structures ({self.apioxy['api_structures']}).")
@@ -91,6 +107,7 @@ class APIOxy(object):
         # t3
         if 'library_name' not in self.t3:
             self.t3['library_name'] = 'APIOxy'
+            self.logger.debug('Setting library_name to APIOxy.')
         if 'sensitivity' not in self.t3:
             self.t3['sensitivity'] = {'top_SA_species': 10,
                                       'top_SA_reactions': 10,
@@ -156,3 +173,4 @@ class APIOxy(object):
                            clean_dir=False,
                            )
             t3_object.execute()
+        self.logger.log_footer()
