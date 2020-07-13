@@ -1,7 +1,7 @@
 """
 This module contains functions which are shared across multiple APIOxy modules.
 As such, it should not import any other ARC module (specifically ones that use the logger defined here)
-  to avoid circular imports.
+to avoid circular imports.
 
 VERSION is the full APIOxy version, using `semantic versioning <https://semver.org/>`_.
 """
@@ -146,45 +146,6 @@ def log_footer(execution_time: str,
     logger.log(level, '')
     logger.log(level, f'Total execution time: {execution_time}')
     logger.log(level, f'ARC execution terminated on {time.asctime()}')
-
-
-def get_git_commit() -> Tuple[str, str]:
-    """
-    Get the recent git commit to be logged.
-
-    Note:
-        Returns empty strings if hash and date cannot be determined.
-
-    Returns:
-        The git HEAD commit hash and the git HEAD commit date, each as a string.
-    """
-    head, date = '', ''
-    if os.path.exists(os.path.join(arc_path, '.git')):
-        try:
-            head, date = subprocess.check_output(['git', 'log', '--format=%H%n%cd', '-1'], cwd=arc_path).splitlines()
-            head, date = head.decode(), date.decode()
-        except (subprocess.CalledProcessError, OSError):
-            return head, date
-    return head, date
-
-
-def get_git_branch() -> str:
-    """
-    Get the git branch to be logged.
-
-    Returns:
-        The git branch name.
-    """
-    if os.path.exists(os.path.join(arc_path, '.git')):
-        try:
-            branch_list = subprocess.check_output(['git', 'branch'], cwd=arc_path).splitlines()
-        except (subprocess.CalledProcessError, OSError):
-            return ''
-        for branch_name in branch_list:
-            if '*' in branch_name.decode():
-                return branch_name.decode()[2:]
-    else:
-        return ''
 
 
 def string_representer(dumper: yaml.Dumper,
