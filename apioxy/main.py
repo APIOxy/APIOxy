@@ -26,7 +26,7 @@ class APIOxy(object):
     """
 
     def __init__(self,
-                 project: str,
+                 project: Optional[str] = None,
                  project_directory: Optional[str] = None,
                  apioxy: Optional[dict] = None,
                  t3: Optional[dict] = None,
@@ -40,7 +40,14 @@ class APIOxy(object):
         self.t0 = time.time()  # initialize the timer
 
         self.project = project
-        self.project_directory = project_directory or os.path.join(PROJECTS_BASE_PATH, project)
+        if self.project is None:
+            if 'project' in apioxy:
+                self.project = apioxy['project']
+            elif not demo:
+                raise ValueError('A project name must be given either directly '
+                                 'or via the "project" key in the apioxy dictionary.')
+
+        self.project_directory = project_directory or os.path.join(PROJECTS_BASE_PATH, self.project)
         if not os.path.isdir(self.project_directory):
             os.makedirs(self.project_directory)
 
