@@ -7,6 +7,8 @@ import os
 import time
 from typing import Optional
 
+from arc.common import save_yaml_file
+
 from t3 import T3
 from t3.common import get_rmg_species_from_a_species_dict
 from t3.main import RMG_THERMO_LIB_BASE_PATH
@@ -77,6 +79,43 @@ class APIOxy(object):
             self.set_up_demo()
         else:
             self.apply_default_settings()
+
+    def as_dict(self):
+        """
+        A dictionary representation of the object.
+
+        Returns: dict
+        """
+        return {'project': self.project,
+                'project_directory': self.project_directory,
+                'demo': self.demo,
+                'verbose': self.verbose,
+                'apioxy': self.apioxy,
+                't3': self.t3,
+                'rmg': self.rmg,
+                'qm': self.qm,
+                }
+
+    def write_apioxy_input_file(self, path: Optional[str] = None) -> None:
+        """
+        Save the relevant arguments as a YAML file.
+        Useful for creating an input file using the API.
+
+        Args:
+             path (str, optional): The full path for the generated input file,
+                                   or to the folder where this file will be saved under a default name.
+                                   If ``None``, the input file will be saved to the project directory.
+        """
+        if path is None:
+            path = os.path.join(self.project_directory, 'APIOxy_auto_saved_input.yml')
+        elif os.path.isdir(path):
+            path += '/' if path[-1] != '/' else ''
+            path += 'APIOxy_auto_saved_input.yml'
+        base_path = os.path.dirname(path)
+        if not os.path.isdir(base_path):
+            os.makedirs(base_path)
+        self.logger.info(f'\n\nWriting input file to {path}')
+        save_yaml_file(path=path, content=self.as_dict())
 
     def set_up_demo(self):
         """
@@ -206,6 +245,7 @@ class APIOxy(object):
         Todo:
             Make self.apioxy['run_in_parallel'] functional
         """
+        self.write_apioxy_input_file()
         for i, api_dict in enumerate(self.apioxy['api_structures']):
             rmg = self.rmg.copy()
             api_dict_copy = api_dict.copy()
