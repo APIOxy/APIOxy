@@ -4,6 +4,8 @@ which python
 echo checking which julia...
 which julia
 
+#comment this line if you like to use python3
+#this is pyjulia as default. 
 echo linking python-jl to python...
 ln -sfn $(which python-jl) $(which python)
 

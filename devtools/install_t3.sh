@@ -1,9 +1,16 @@
 # Temporarily change directory to $HOME to install software
 pushd .
+#APIOxy
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+echo "export PYTHONPATH=$PYTHONPATH:$(pwd)" >> ~/.bashrc
 
 cd ..
 # RMG-database
 git clone https://github.com/ReactionMechanismGenerator/RMG-database
+#changing to API_db branch. Future this will be deprecated
+cd RMG-database
+git checkout api_db
+cd ..
 # RMG-Py
 git clone https://github.com/ReactionMechanismGenerator/RMG-Py
 cd RMG-Py
@@ -11,6 +18,8 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 echo "export PYTHONPATH=$PYTHONPATH:$(pwd)" >> ~/.bashrc
 # compile RMG
 make
+#changing to api_degradation branch. Future this will be deprecated
+git checkout api_degradation
 
 cd ..
 # ARC
