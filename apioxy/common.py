@@ -17,7 +17,8 @@ import warnings
 import yaml
 from typing import Dict, List, Optional, Tuple, Union
 
-from arc.settings import arc_path, servers, default_job_types
+#from arc.settings import arc_path, servers, default_job_types
+from arc.imports import settings
 from arc.common import is_str_float, is_str_int, read_yaml_file, save_yaml_file
 
 
