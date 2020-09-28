@@ -25,13 +25,16 @@ def main() -> None:
         print('A project name must be provided in the input file!')
 
     try:
-        input_dict['apioxy_settings']
+        input_dict['apioxy']
     except KeyError:
-        print('The "apioxy_settings" block is missing in the input file!')
+        print('The "apioxy" block is missing in the input file!')
 
     # if project directory is not given in the input file, use the directory of the input file instead
-    apioxy_project_directory = input_dict['apioxy_settings'].get('project_directory', str())
-    apioxy_project_directory = apioxy_project_directory if apioxy_project_directory else input_file_directory
+    try:
+        apioxy_project_directory = input_dict['apioxy'].get('project_directory', str())
+    except KeyError:
+        apioxy_project_directory = False
+        apioxy_project_directory = apioxy_project_directory if apioxy_project_directory else input_file_directory
     input_dict['project_directory'] = apioxy_project_directory
 
     verbose = logging.INFO
