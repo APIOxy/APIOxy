@@ -169,15 +169,16 @@ class APIOxy(object):
 
         # rmg
         if 'database' not in self.rmg:
-            self.rmg['database'] = {'thermo_libraries': ['BurkeH2O2',
+            self.rmg['database'] = {'thermo_libraries': ['API_soup',
+                                                         'BurkeH2O2',
                                                          'thermo_DFT_CCSDTF12_BAC',
                                                          'DFT_QCI_thermo',
                                                          'primaryThermoLibrary',
                                                          'APIOxy',
                                                          'CBS_QB3_1dHR',
                                                          'CurranPentane'],
-                                    'kinetics_libraries': ['BurkeH2O2inN2',
-                                                           'api_soup',
+                                    'kinetics_libraries': ['API_soup',
+                                                           'BurkeH2O2inN2',
                                                            'NOx2018',
                                                            'APIOxy',
                                                            'Klippenstein_Glarborg2016'],
