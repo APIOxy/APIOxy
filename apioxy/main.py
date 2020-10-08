@@ -192,14 +192,14 @@ class APIOxy(object):
         # Todo: Do the same for kinetics libraries
 
         if 'model' not in self.rmg:
-            self.rmg['model'] = {'core_tolerance': 0.20}
+            self.rmg['model'] = {'core_tolerance': [0.1, 0.05]}
         if 'options' not in self.rmg:
             self.rmg['options'] = {'save_html': True}
         if 'reactors' not in self.rmg:
-            self.rmg['reactors'] = {'type': 'liquid batch constant T V',
+            self.rmg['reactors'] = [{'type': 'liquid batch constant T V',
                                     'T': 313,
-                                    'termination_time': [72, 'hrs'],
-                                    }
+                                    'termination_time': [72, 'hours'],
+                                    }]
         if 'species' not in self.rmg:
             raise ValueError('APIOxy cannot be executed without specifying the species mixture.')
 
