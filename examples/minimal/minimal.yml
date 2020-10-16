@@ -1,0 +1,35 @@
+apioxy:
+  project_directory: "/home/ranasd01/workspace/Chemical_Stabillity/examples/APIOxy/examples/minimal/"
+  api_structures:
+  - concentration: 1.89e-06
+    label: ethylamine
+    smiles: CN
+  project: API_minimal
+  model_level: 1 
+  run_in_parallel: false
+qm:
+  adapter: ARC
+  allow_nonisomorphic_2d: True
+rmg:
+  species:
+  - concentration: 0.0278
+    label: water
+    smiles: O
+    solvent: true
+  - concentration: 0.0124
+    label: methanol
+    smiles: CO
+  - concentration: 4.9e-06
+    label: AIBN
+    smiles: CC(C)(C#N)/N=N/C(C)(C)C#N
+  - concentration: 2.73e-07
+    constant: true
+    label: O2
+    smiles: '[O][O]'
+  - concentration: 4.819e-07
+    constant: true
+    label: N2
+    smiles: N#N
+t3:
+  options:
+    max_T3_walltime: 05:00:00:00

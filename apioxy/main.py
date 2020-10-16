@@ -169,18 +169,19 @@ class APIOxy(object):
 
         # rmg
         if 'database' not in self.rmg:
-            self.rmg['database'] = {'thermo_libraries': ['BurkeH2O2',
+            self.rmg['database'] = {'thermo_libraries': ['API_soup',
+                                                         'APIOxy',
+                                                         'BurkeH2O2',
                                                          'thermo_DFT_CCSDTF12_BAC',
                                                          'DFT_QCI_thermo',
                                                          'primaryThermoLibrary',
-                                                         'APIOxy',
                                                          'CBS_QB3_1dHR',
                                                          'CurranPentane'],
-                                    'kinetics_libraries': ['BurkeH2O2inN2',
-                                                           'api_soup',
+                                    'kinetics_libraries': ['API_soup',
+                                                           'BurkeH2O2inN2',
                                                            'NOx2018',
-                                                           'APIOxy',
                                                            'Klippenstein_Glarborg2016'],
+                                   'kinetics_families': ['api',],
                                     }
 
         rmg_thermo_libs = [subdir_tuple[0] for subdir_tuple in os.walk(RMG_THERMO_LIB_BASE_PATH)]
@@ -191,14 +192,14 @@ class APIOxy(object):
         # Todo: Do the same for kinetics libraries
 
         if 'model' not in self.rmg:
-            self.rmg['model'] = {'core_tolerance': 0.20}
+            self.rmg['model'] = {'core_tolerance': [0.1, 0.05]}
         if 'options' not in self.rmg:
             self.rmg['options'] = {'save_html': True}
         if 'reactors' not in self.rmg:
-            self.rmg['reactors'] = {'type': 'liquid batch constant T V',
+            self.rmg['reactors'] = [{'type': 'liquid batch constant T V',
                                     'T': 313,
-                                    'termination_time': [72, 'hrs'],
-                                    }
+                                    'termination_time': [72, 'hours'],
+                                    }]
         if 'species' not in self.rmg:
             raise ValueError('APIOxy cannot be executed without specifying the species mixture.')
 
