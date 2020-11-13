@@ -15,14 +15,14 @@
   <tr>
     <th align="left">Miscellaneous</th>
     <th align="left">
-    <a href="http://hits.dwyl.com/APIOxy/APIOxy"><img alt="Hit counts" src="http://hits.dwyl.com/APIOxy/APIOxy.svg"></a>
+    <a href="http://hits.dwyl.io/APIOxy/APIOxy"><img alt="Hit counts" src="https://img.shields.io/badge/Hits-Hits-orange"></a>
   </tr>
 </table>
 
 
 # APIOxy
 
-An open-source library for prediciting the chemical stability of active pharmaceutical ingredients.
+An open-source library for predicting the chemical stability of active pharmaceutical ingredients.
 
 ## OVERVIEW
 
