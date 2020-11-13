@@ -15,7 +15,7 @@
   <tr>
     <th align="left">Miscellaneous</th>
     <th align="left">
-    <a href="http://hits.dwyl.io/APIOxy/APIOxy"><img alt="Hit counts" src="https://img.shields.io/badge/Hits-Hits-orange"></a>
+    <a href="http://hits.dwyl.io/APIOxy/APIOxy"><img alt="Hit counts" src="http://hits.dwyl.io/APIOxy/APIOxy.svg"></a>
   </tr>
 </table>
 
