@@ -13,6 +13,12 @@
     </th>
   </tr>
   <tr>
+    <th align="left">Code Quality</th>
+    <th align="left">
+      <a href="https://www.codefactor.io/repository/github/apioxy/apioxy/overview/master"><img src="https://www.codefactor.io/repository/github/apioxy/apioxy/badge/master" alt="CodeFactor" /></a>
+    </th>
+  </tr>
+  <tr>
     <th align="left">Miscellaneous</th>
     <th align="left">
     <a href="http://hits.dwyl.com/APIOxy/APIOxy"><img alt="Hit counts" src="http://hits.dwyl.com/APIOxy/APIOxy.svg"></a>
