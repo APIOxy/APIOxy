@@ -5,7 +5,7 @@ cclib>=1.6
 coverage
 cython >=0.25.2
 matplotlib>=2.2.2
-numpy==1.15.4
+numpy==1.22.0
 openbabel
 paramiko==2.6.0
 pandas
